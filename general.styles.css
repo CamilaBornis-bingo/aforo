@@ -1,0 +1,40 @@
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.alinear {
+    position: relative;
+    top: 5vh;
+    left: 18vw;
+}
+
+.alinear-2 {
+    position: relative;
+    top: 5vh;
+    left: 0vw;
+}
+
+.alinear-btn-back {
+    position: relative;
+}
+
+.fuente-monitor {
+    font-size: 4.5rem;
+}
+
+.icon-32 {
+    position: relative;
+    left: 17vw;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+footer {
+    position: absolute;
+    bottom: 5vh;
+    left: 35vw;
+}
