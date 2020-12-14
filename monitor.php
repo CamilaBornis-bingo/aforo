@@ -31,8 +31,6 @@
                     <h2>000 / 500</h2>
                     <h1>CAPACIDAD SALA ESPERA</h1>
                     <h2>000 / 60</h2>
-                    <h1>TIEMPO DE ESPERA APROX.:</h1>
-                    <h2>00:30:00</h2>
                 </div>';
             } else {
                 echo '
@@ -41,8 +39,6 @@
                         <p class="fuente-monitor">'.$total.' / '.$capacidad_max_sala.'</p>
                         <p class="fuente-monitor">CAPACIDAD SALA ESPERA</p>
                         <p class="fuente-monitor">'.$total_sp.' / '.$capacidad_max_sp.'</p>
-                        <p class="fuente-monitor">TIEMPO DE ESPERA APROX.:</p>
-                        <p class="fuente-monitor">00:30:00</p>
                     </div>
                 ';
             }

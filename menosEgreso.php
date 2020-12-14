@@ -28,7 +28,7 @@
             $sql_1= "INSERT INTO data_aforo(ingreso_dataaforo, total_dataaforo, total_salaespera_dataaforo) VALUES($valMasIngreso, $total, $total_actual)";
             mysqli_query($conn, $sql_1);        
         
-        } else if($total_sp <= 0 && $total == $capacidad_max_sala){
+        } else if($total_sp <= 0 && $total <= $capacidad_max_sala){
             $total_actual= $total - $valMasIngreso;
     
             $sql_1= "INSERT INTO data_aforo(ingreso_dataaforo, total_dataaforo) VALUES($valMasIngreso, $total_actual)";

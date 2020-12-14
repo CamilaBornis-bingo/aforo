@@ -91,5 +91,9 @@
 	        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	        xmlhttp.send(datasend);
         })
+
+        setTimeout(() => {
+            location.reload()
+        }, 5000);
     </script>
 </html>
