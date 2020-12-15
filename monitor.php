@@ -9,7 +9,7 @@
     <script src="monitor.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="container-fluid navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="index.php">Bingo Oasis APP</a>
         <a href="index.php" class="alinear-btn-back"><img src="img/goback.png"/></a>
     </nav>
@@ -26,15 +26,15 @@
             $total_sp= $rslt["total_salaespera_dataaforo"];
             
             if($total == NULL) {
-            echo'<div class="container alinear">
-                    <h1>CAPACIDAD TOTAL SALA</h1>
-                    <h2>000 / 500</h2>
-                    <h1>CAPACIDAD SALA ESPERA</h1>
-                    <h2>000 / 60</h2>
+            echo'<div class="col-12">
+                    <h2>CAPACIDAD TOTAL SALA</h2>
+                    <h3>000 / 500</h3>
+                    <h2>CAPACIDAD SALA ESPERA</h2>
+                    <h3>000 / 60</h3>
                 </div>';
             } else {
                 echo '
-                    <div class="alinear">
+                    <div class="container">
                         <p class="fuente-monitor">CAPACIDAD TOTAL SALA</p>
                         <p class="fuente-monitor">'.$total.' / '.$capacidad_max_sala.'</p>
                         <p class="fuente-monitor">CAPACIDAD SALA ESPERA</p>

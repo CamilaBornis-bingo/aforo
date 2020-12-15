@@ -19,52 +19,34 @@
         include 'conexion.php';
         include "config.php";
 
-        $sql= "SELECT * FROM data_aforo ORDER BY id_dataaforo DESC LIMIT 1 ";
+        $sql= "SELECT * FROM sala_espera ORDER BY idsala_espera DESC LIMIT 1 ";
         $qry= mysqli_query($conn, $sql);
 
         while($rslt= mysqli_fetch_array($qry)) {
-            $total= $rslt["total_dataaforo"];
-            $total_sp= $rslt["total_salaespera_dataaforo"];
-            $aux = $total;
-            if ($total_sp > 0) {
-                $aux = 501;
-            }
+            $total= $rslt["control_sala"];
             
-            if($total == NULL) {
-                echo '<div class="container alinear-2 display-1">
-                      <div class="card bg-secondary mb-3" style="max-width: 35rem"> 
-                        <div class="card-header text-center"> 000 / 500</div>
-                        <div class="card-header text-center">  00 / 60</div>
-                    <div class="card-body">
-                        <img src="img/plus_64.png" id="mas" class="icon-64"/>
-                        <img src="img/minus_32.png" id="menos" class="icon-32"/>                                          
-                    </div>
-                    </div>
-                    </div>';
-            } else {
                 echo '
                     <div class="container alinear-2 display-1">
                     <div class="card bg-secondary mb-3" style="max-width: 35rem"> 
-                    <div class="card-header text-center">'.$total.' / '.$capacidad_max_sala.'</div>
-                    <div class="card-header text-center">'.$total_sp.' / '.$capacidad_max_sp.'</div>
+                    <div class="card-header text-center">'.$total.' / '.$capacidad_max_sp.'</div>
                     <div class="card-body">
-                        <img src="img/plus_64.png" id="mas" class="icon-64"/>
-                        <img src="img/minus_32.png" id="menos" class="icon-32"/>                                          
+                    <img src="img/minus_64.png" id="menos"/>
+                    <img src="img/plus_32.png" id="mas" class="icon-32"/>                                       
                     </div>
                     </div>
                     </div>
                 ';
-            }
+            
         }
 
-        $sql2= "SELECT * FROM sala_espera ORDER BY idsala_espera DESC LIMIT 1 ";
+        $sql2= "SELECT * FROM data_aforo ORDER BY id_dataaforo DESC LIMIT 1 ";
         $qry2= mysqli_query($conn, $sql2);
 
         while($rslt2= mysqli_fetch_array($qry2)) {
-            $control= $rslt2["control_sala"];
+            $control= $rslt2["total_salaespera_dataaforo"];
         }
 
-        if ($total_sp !== $control) : ?>
+        if ($total !== $control) : ?>
             <div id="popup">
             <div class="toast show p-3 mb-2 bg-danger text-dark" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
@@ -79,25 +61,8 @@
             </div>
          </div>
     <?php endif;
-
-         if ($aux) {
-             if ($aux == 500) {?>
-         <div id="popup2" class="">
-            <div class="toast show p-3 mb-2 bg-warning text-dark" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="mr-auto">Capacidad limitada</strong>
-                    <button type="button" onclick="cerrarX()" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="toast-body">
-                    A partir de ahora deben ingresar a Sala de espera. 
-                </div>
-            </div>
-         </div>
-  <?php     }
-        }
-        ?>
+        
+    ?>
 </body>
     <script>
         const Minus= document.getElementById('menos')
@@ -117,7 +82,7 @@
                     location.reload()
 		        }
 	        }
-	        xmlhttp.open("POST","masIngreso.php", true);
+	        xmlhttp.open("POST","salaIngreso.php", true);
 	        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	        xmlhttp.send(datasend);
         })
@@ -132,28 +97,10 @@
                     location.reload()
 		        }
 	        }
-	        xmlhttp.open("POST","menosEgreso.php", true);
+	        xmlhttp.open("POST","salaEgreso.php", true);
 	        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	        xmlhttp.send(datasend);
-        });
-
-        function cerrar() {
-            var x = document.getElementById("popup");
-            if (x.style.display == "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
-
-        function cerrarX() {
-            var x = document.getElementById("popup2");
-            if (x.style.display == "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
-            }
-        }
+        })
 
         setTimeout(() => {
             location.reload()

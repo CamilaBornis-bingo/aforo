@@ -4,6 +4,12 @@ html {
     overflow: hidden;
 }
 
+.centrar{
+    position: absolute;
+    top: 10vh;
+    left: 18vw;
+}
+
 .alinear {
     position: relative;
     top: 5vh;
@@ -21,7 +27,7 @@ html {
 }
 
 .fuente-monitor {
-    font-size: 4.5rem;
+    font-size: 3.5rem;
 }
 
 .icon-32 {
@@ -38,3 +44,4 @@ footer {
     bottom: 5vh;
     left: 35vw;
 }
+

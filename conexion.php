@@ -1,7 +1,7 @@
 <?php 
 $servername = "localhost";
-$username = "gtorres";
-$password = "gtorres";
+$username = "root";
+$password = "";
 $dbname = "aforo";
 
 // Create connection

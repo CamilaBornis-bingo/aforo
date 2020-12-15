@@ -19,19 +19,19 @@
             //SE SUMA EL TOTAL CON EL VALOR NUEVO
             $total_actual= $total - $valMasIngreso;
     
-            $sql_1= "INSERT INTO data_aforo(ingreso_dataaforo, total_dataaforo) VALUES($valMasIngreso, $total_actual)";
+            $sql_1= "INSERT INTO data_aforo(egreso_dataaforo, total_dataaforo) VALUES($valMasIngreso, $total_actual)";
             mysqli_query($conn, $sql_1);
     
         } else if($total >= $capacidad_max_sala && $total_sp <= $capacidad_max_sp && $total_sp > 00) {
             $total_actual= $total_sp - $valMasIngreso;
     
-            $sql_1= "INSERT INTO data_aforo(ingreso_dataaforo, total_dataaforo, total_salaespera_dataaforo) VALUES($valMasIngreso, $total, $total_actual)";
+            $sql_1= "INSERT INTO data_aforo(egreso_dataaforo, total_dataaforo, total_salaespera_dataaforo) VALUES($valMasIngreso, $total, $total_actual)";
             mysqli_query($conn, $sql_1);        
         
         } else if($total_sp <= 0 && $total <= $capacidad_max_sala){
             $total_actual= $total - $valMasIngreso;
     
-            $sql_1= "INSERT INTO data_aforo(ingreso_dataaforo, total_dataaforo) VALUES($valMasIngreso, $total_actual)";
+            $sql_1= "INSERT INTO data_aforo(egreso_dataaforo, total_dataaforo) VALUES($valMasIngreso, $total_actual)";
             mysqli_query($conn, $sql_1);
         
         } else if($total == $capacidad_max_sala && $total_sp == $capacidad_max_sp) {
