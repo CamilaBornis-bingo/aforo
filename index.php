@@ -14,7 +14,7 @@
         <div class="row">
             <a class="navbar-brand" href="index.php">Bingo Oasis APP</a>
         </div>
-        <a href="reporte.php"><img src="img/file.png" id="mas" class="icon-64"/></a>
+        <a href="reporte.php" id="reportes"><img src="img/file.png" id="mas" class="icon-64"/></a>
     </div>
 
     </nav>

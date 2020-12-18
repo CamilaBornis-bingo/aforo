@@ -48,3 +48,10 @@ footer {
 .limite{
     background-color: red;
 }
+
+
+@media (max-width: 1000px) {
+    #reportes {
+      display: none;
+    }
+  }

@@ -1,19 +1,21 @@
 <?php
 include_once("conexion.php");
 
-    if ($_POST) {
-        $desde = $_POST["fecha_desde"];
-        $hasta = $_POST["fecha_hasta"];
+if ($_POST) {
+    $desde = $_POST["fecha_desde"];
+    $hasta = $_POST["fecha_hasta"];
 
-        $fechaD = date($desde);
-        $fechaH = date($hasta);
-        
-        $sql = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
-        $qry= mysqli_query($conn, $sql);
+    $sql = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
+    $qry= mysqli_query($conn, $sql);
+} else {
+    $sql = "SELECT * FROM data_aforo";
+    $qry= mysqli_query($conn, $sql);
+}
+    $total = mysqli_num_rows($qry);
+    $datos_x_pag = 50;
 
-        $sql2 = "SELECT *, SUM(ingreso_dataaforo) as ingreso, SUM(egreso_dataaforo) as egreso FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
-        $qry2= mysqli_query($conn, $sql2);
-    }
+    $paginas = $total/$datos_x_pag;
+    $paginas = ceil($paginas);
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +32,6 @@ include_once("conexion.php");
                 <a class="navbar-brand" href="index.php">Bingo Oasis APP</a>
                 <a href="index.php" class="alinear-btn-back"><img src="img/goback.png"/></a>
     </nav>
-    <div class="container">
         <form action="" method="POST">
             <label for="fecha_desde"> Fecha desde </label>
             <input type="date" name="fecha_desde" value="<?=($_POST)? $desde : ''?>">
@@ -38,24 +39,43 @@ include_once("conexion.php");
             <input type="date" name="fecha_hasta" value="<?=($_POST)? $hasta : ''?>">
             <input type="submit" value="enviar">
         </form>
-    </div> 
+    <?php 
+        if (!$_GET) {
+            header('Location:reporte.php?pagina=1');
+        }
+        
+        $iniciar = ($_GET['pagina']-1)*$datos_x_pag;
 
-    <?php if($_POST) : ?>
-        <h2>Totales</h2>
-        <?php
-            while ($rslt2= mysqli_fetch_array($qry2)) {
+        if ($_POST) {
+            $consulta = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00' LIMIT $iniciar, $datos_x_pag";
+
+            //consulta datos totales
+            $sql2 = "SELECT *, SUM(ingreso_dataaforo) as ingreso, SUM(egreso_dataaforo) as egreso FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
+            $qry2= mysqli_query($conn, $sql2);
+        } else {
+            $consulta = 'SELECT * FROM data_aforo LIMIT '.$iniciar.', '.$datos_x_pag.'';
+        }
+
+        $query= mysqli_query($conn, $consulta);
+        $resultado = mysqli_fetch_array($query, MYSQLI_NUM);
+
+        
+    ?>
+
+        <?php if($_POST): ?>
+            <h2>Totales</h2>
+        <?php while ($rslt2= mysqli_fetch_array($qry2)) :
                 $ingreso = $rslt2['ingreso'];
-                $egreso = $rslt2['egreso'];
-                ?>
+                $egreso = $rslt2['egreso']; ?>
                 <h3>Ingresos:<?=$ingreso?></h3>
-                <h3>Egresos:<?=$egreso?></h3><?php
-            } 
+                <h3>Egresos:<?=$egreso?></h3>
+        <?php endwhile;
             $dif = $ingreso - $egreso;
             ?>
             <h3>Diferencia:<?=$dif?></h3>
         <a href="exportar.php?inicio=<?=$desde?>&final=<?=$hasta?>&ingreso=<?=$ingreso?>&egreso=<?=$egreso?>">Descargar reporte </a>
-    <div class="container-fluid alinear">
-        <table border=1> 
+        <?php endif ?>
+    <table class="table table-hover"> 
             <tr>
                 <td>Ingresos</td>
                 <td>Egresos</td>
@@ -63,32 +83,28 @@ include_once("conexion.php");
                 <td>Sala de espera</td>
                 <td>Fecha y hora</td>
             </tr>
-            <?php
-            // $aux = 0;
-            // $ingreso = 0;
-            // $egreso = 0;
-                while($rslt= mysqli_fetch_array($qry)) { 
-                    // $total = $rslt['total_dataaforo'];
-                    // if ($total < $aux) {
-                    //     $ingreso++;
-                    //     $aux = $total;
-                    // } else {
-                    //     $egreso++;
-                    //     $aux = $total;
-                    // }
-                    ?>
+            <?php while($resultado= mysqli_fetch_array($query)) : ?>
                     <tr>
-                        <td><?=$rslt['ingreso_dataaforo']?></td>
-                        <td><?=$rslt['egreso_dataaforo']?></td>
-                        <td><?=$rslt['total_dataaforo']?></td>
-                        <td><?=$rslt['total_salaespera_dataaforo']?></td>
-                        <td><?=$rslt['fechahora_dataaforo']?></td>
+                        <td><?=$resultado['ingreso_dataaforo']?></td>
+                        <td><?=$resultado['egreso_dataaforo']?></td>
+                        <td><?=$resultado['total_dataaforo']?></td>
+                        <td><?=$resultado['total_salaespera_dataaforo']?></td>
+                        <td><?=$resultado['fechahora_dataaforo']?></td>
                     </tr>
-        <?php } 
-        ?>
+            <?php endwhile ?>
         </table>
-    </div>
-<?php endif; ?>
 
+    <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <?php for ($i=1; $i <= $paginas ; $i++) : ?>
+        <?php  if ($_POST) { ?>
+            <li class="page-item"><a class="page-link" href="reporte.php?pagina=<?=$i?>"><?=$i?></a></li><?php
+        } else { ?>
+            <li class="page-item"><a class="page-link" href="reporte.php?pagina=<?=$i?>"><?=$i?></a></li><?php
+        }
+         ?>
+    <?php endfor ?> 
+  </ul>
+</nav>
 </body>
 </html>
