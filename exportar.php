@@ -4,11 +4,25 @@ header("Content-Disposition: attachment;  filename=reporte_aforo.xls");
 
 include_once("conexion.php");
 
-$desde = $_GET["inicio"];
+        $desde = $_GET["inicio"];
         $hasta = $_GET["final"];
+        $ingresos = $_GET["ingreso"];
+        $egresos = $_GET["egreso"];
         
-        $sql = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde' AND '$hasta'";
+        $sql = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
         $qry= mysqli_query($conn, $sql); ?>
+        <table border="2">
+            <tr>Totales</tr>
+            <tr>
+                <td>Ingresos</td>
+                <td>Egresos</td>
+            </tr>
+            <tr>
+                <td><?=$ingresos?></td>
+                <td><?=$egresos?></td>
+            </tr>
+
+        </table>
         <table border=1> 
         <tr>
             <td>Ingresos</td>

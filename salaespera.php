@@ -23,20 +23,22 @@
         $qry= mysqli_query($conn, $sql);
 
         while($rslt= mysqli_fetch_array($qry)) {
-            $total= $rslt["control_sala"];
-            
-                echo '
+            $total= $rslt["control_sala"];?>
                     <div class="container alinear-2 display-1">
-                    <div class="card bg-secondary mb-3" style="max-width: 35rem"> 
-                    <div class="card-header text-center">'.$total.' / '.$capacidad_max_sp.'</div>
+                    <div class="card bg-secondary mb-3" style="max-width: 35rem"> <?php
+                        if ($total < 100) { ?>
+                            <div class="card-header text-center bg-success text-white"><?=$total?> / <?=$capacidad_max_sp?></div> <?php
+                        } else { ?>
+                            <div class="card-header text-center limite text-white"><?=$total?> / <?=$capacidad_max_sp?></div> <?php
+                        }
+                    ?>
                     <div class="card-body">
                     <img src="img/minus_64.png" id="menos"/>
-                    <img src="img/plus_32.png" id="mas" class="icon-32"/>                                       
+                    <img src="img/plus_64.png" id="mas" class="icon-32"/>                                       
                     </div>
                     </div>
                     </div>
-                ';
-            
+        <?php    
         }
 
         $sql2= "SELECT * FROM data_aforo ORDER BY id_dataaforo DESC LIMIT 1 ";
@@ -48,7 +50,7 @@
 
         if ($total !== $control) : ?>
             <div id="popup">
-            <div class="toast show p-3 mb-2 bg-danger text-dark" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast mt-5 show p-3 mb-2 bg-danger text-dark alinear" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="mr-auto">Aviso</strong>
                     <button type="button" onclick="cerrar()" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -101,6 +103,15 @@
 	        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	        xmlhttp.send(datasend);
         })
+
+        function cerrar() {
+            var x = document.getElementById("popup");
+            if (x.style.display == "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
 
         setTimeout(() => {
             location.reload()

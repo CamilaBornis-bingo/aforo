@@ -7,7 +7,7 @@
     <title>Appforo</title>
     <link rel="stylesheet" href="libs/bootstrap.min.css"/>
     <link rel="stylesheet" href="general.styles.css"/>
-    <!--<script src="app.js"></script>-->
+    <!-- <script src="app.js"></script> -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,8 +28,7 @@
             $aux = $total;
             if ($total_sp > 0) {
                 $aux = 501;
-            }
-            
+            } 
             if($total == NULL) {
                 echo '<div class="container alinear-2 display-1">
                       <div class="card bg-secondary mb-3" style="max-width: 35rem"> 
@@ -41,19 +40,29 @@
                     </div>
                     </div>
                     </div>';
-            } else {
-                echo '
+            } else { ?>
                     <div class="container alinear-2 display-1">
-                    <div class="card bg-secondary mb-3" style="max-width: 35rem"> 
-                    <div class="card-header text-center">'.$total.' / '.$capacidad_max_sala.'</div>
-                    <div class="card-header text-center">'.$total_sp.' / '.$capacidad_max_sp.'</div>
+                    <div class="card bg-secondary mb-3 p-2" style="max-width: 35rem"><?php
+                        if ($total < 500 && $total_sp < 100) { ?>
+                            <div class="card-header text-center bg-success text-white" id="sala"><?=$total?> / <?=$capacidad_max_sala?></div>
+                            <div class="card-header text-center bg-success text-white" id="sp"><?=$total_sp?> / <?=$capacidad_max_sp?></div>
+                            <?php
+                        } elseif($total == 500 && $total_sp < 100) { ?>
+                            <div class="card-header text-center limite text-white" id="sala"><?=$total?> / <?=$capacidad_max_sala?></div>
+                            <div class="card-header text-center bg-success text-white" id="sp"><?=$total_sp?> / <?=$capacidad_max_sp?></div>
+<?php                   } else{ ?>
+                            <div class="card-header text-center limite text-white" id="sala"><?=$total?> / <?=$capacidad_max_sala?></div>
+                            <div class="card-header text-center limite text-white" id="sp"><?=$total_sp?> / <?=$capacidad_max_sp?></div>
+<?php
+                        }
+                    ?>
                     <div class="card-body">
                         <img src="img/plus_64.png" id="mas" class="icon-64"/>
                         <img src="img/minus_32.png" id="menos" class="icon-32"/>                                          
                     </div>
                     </div>
                     </div>
-                ';
+                <?php
             }
         }
 
@@ -62,10 +71,10 @@
 
         while($rslt2= mysqli_fetch_array($qry2)) {
             $control= $rslt2["control_sala"];
-        }
-
+        } 
+    
         if ($total_sp !== $control) : ?>
-            <div id="popup">
+            <div id="popup" class="alinear">
             <div class="toast show p-3 mb-2 bg-danger text-dark" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="mr-auto">Aviso</strong>
@@ -82,7 +91,7 @@
 
          if ($aux) {
              if ($aux == 500) {?>
-         <div id="popup2" class="">
+         <div id="popup2" class="alinear">
             <div class="toast show p-3 mb-2 bg-warning text-dark" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong class="mr-auto">Capacidad limitada</strong>
@@ -154,6 +163,7 @@
                 x.style.display = "none";
             }
         }
+        
 
         setTimeout(() => {
             location.reload()

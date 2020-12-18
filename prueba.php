@@ -1,19 +1,14 @@
 <?php
 include_once("conexion.php");
 
-    if ($_POST) {
-        $desde = $_POST["fecha_desde"];
-        $hasta = $_POST["fecha_hasta"];
-
-        $fechaD = date($desde);
-        $fechaH = date($hasta);
-        
-        $sql = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
-        $qry= mysqli_query($conn, $sql);
-
-        $sql2 = "SELECT *, SUM(ingreso_dataaforo) as ingreso, SUM(egreso_dataaforo) as egreso FROM data_aforo WHERE fechahora_dataaforo BETWEEN '$desde 10:00:00' AND '$hasta 05:00:00'";
-        $qry2= mysqli_query($conn, $sql2);
+    if(isset($_POST["npag"])==false){
+        $npag=0;
+    } else {
+        $npag= $_POST["npag"] * 5;
     }
+
+    $sql = "SELECT * FROM data_aforo WHERE fechahora_dataaforo BETWEEN '2020-12-14 10:00:00' AND '2020-12-18 05:00:00' LIMIT $npag, 5";
+    $qry= mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -30,30 +25,6 @@ include_once("conexion.php");
                 <a class="navbar-brand" href="index.php">Bingo Oasis APP</a>
                 <a href="index.php" class="alinear-btn-back"><img src="img/goback.png"/></a>
     </nav>
-    <div class="container">
-        <form action="" method="POST">
-            <label for="fecha_desde"> Fecha desde </label>
-            <input type="date" name="fecha_desde" value="<?=($_POST)? $desde : ''?>">
-            <label for="fecha_hasta"> Fecha hasta </label>
-            <input type="date" name="fecha_hasta" value="<?=($_POST)? $hasta : ''?>">
-            <input type="submit" value="enviar">
-        </form>
-    </div> 
-
-    <?php if($_POST) : ?>
-        <h2>Totales</h2>
-        <?php
-            while ($rslt2= mysqli_fetch_array($qry2)) {
-                $ingreso = $rslt2['ingreso'];
-                $egreso = $rslt2['egreso'];
-                ?>
-                <h3>Ingresos:<?=$ingreso?></h3>
-                <h3>Egresos:<?=$egreso?></h3><?php
-            } 
-            $dif = $ingreso - $egreso;
-            ?>
-            <h3>Diferencia:<?=$dif?></h3>
-        <a href="exportar.php?inicio=<?=$desde?>&final=<?=$hasta?>&ingreso=<?=$ingreso?>&egreso=<?=$egreso?>">Descargar reporte </a>
     <div class="container-fluid alinear">
         <table border=1> 
             <tr>
@@ -88,7 +59,42 @@ include_once("conexion.php");
         ?>
         </table>
     </div>
-<?php endif; ?>
+    
+<?php 
+    $sql_c= "SELECT COUNT(*) AS paginas FROM data_aforo";
+	$qry_c= mysqli_query($conn, $sql_c);
+	$rslt_c= mysqli_fetch_assoc($qry_c);
 
+	$tot_pag= ceil($rslt_c["paginas"]/5);
+
+	echo "<center>";
+	for($i=1; $i <= $tot_pag; $i++){
+		echo "<input type='button' value='$i' id='pag'>";
+    }
+    echo "</center>";
+    ?>
+
+<script>
+    window.onload= function(){
+        let pagina = document.getElementById('pag');
+
+        pagina.addEventListener("click", function(){
+            var jx_npag= event.target.value;
+        
+            var data= "npag="+jx_npag;
+        
+            var xmlhttp= new XMLHttpRequest();
+            xmlhttp.onreadystatechange= function(){
+                if(this.readyState==4 && this.status==200){
+                    document.getElementById("content-arti").innerHTML= this.responseText;
+                    alert(data);
+                }
+            }
+            xmlhttp.open("POST", "prueba.php", true);
+            xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            xmlhttp.send(data);
+        })
+    }
+</script>
 </body>
 </html>

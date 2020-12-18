@@ -13,10 +13,12 @@
     }
 
     //SE GUARDA EN LA BASE
+    if ($total_actual != $capacidad_max_sp) {
         $total_actual= $control + $valMasIngreso;
 
         $sql_1= "INSERT INTO sala_espera(control_sala) VALUES($total_actual)";
         mysqli_query($conn, $sql_1);
+    } 
     
 
 

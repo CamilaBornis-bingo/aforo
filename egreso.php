@@ -37,19 +37,28 @@
               </div>
               </div>
               </div>';
-            } else {
-                echo '
+            } else {?>
                     <div class="container alinear-2 display-1">
-                    <div class="card bg-secondary mb-3" style="max-width: 35rem"> 
-                    <div class="card-header text-center">'.$total.' / '.$capacidad_max_sala.'</div>
-                    <div class="card-header text-center">'.$total_sp.' / '.$capacidad_max_sp.'</div>
+                    <div class="card bg-secondary mb-3" style="max-width: 35rem"> <?php
+                    if ($total < 500 && $total_sp < 100) { ?>
+                            <div class="card-header text-center bg-success text-white" id="sala"><?=$total?> / <?=$capacidad_max_sala?></div>
+                            <div class="card-header text-center bg-success text-white" id="sp"><?=$total_sp?> / <?=$capacidad_max_sp?></div>
+                            <?php
+                    } elseif($total == 500 && $total_sp < 100) { ?>
+                            <div class="card-header text-center limite text-white" id="sala"><?=$total?> / <?=$capacidad_max_sala?></div>
+                            <div class="card-header text-center bg-success text-white" id="sp"><?=$total_sp?> / <?=$capacidad_max_sp?></div>
+<?php               } else{ ?>
+                            <div class="card-header text-center limite text-white" id="sala"><?=$total?> / <?=$capacidad_max_sala?></div>
+                            <div class="card-header text-center limite text-white" id="sp"><?=$total_sp?> / <?=$capacidad_max_sp?></div>
+<?php
+                    }
+                    ?>
                     <div class="card-body">
                         <img src="img/minus_64.png" id="menos"/>
                         <img src="img/plus_32.png" id="mas" class="icon-32"/>
                     </div>
                     </div>
-                    </div>
-                ';
+                    </div> <?php
             }
         }
     ?>
