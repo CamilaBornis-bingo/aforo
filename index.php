@@ -12,7 +12,7 @@
     <nav class="container-fluid navbar navbar-dark bg-dark">
     <div class="container">
         <div class="row">
-            <a class="navbar-brand" href="index.php">Bingo Oasis APP</a>
+            <a class="navbar-brand" href="index.php">Bingo Oasis APP | vers <?php include "config.php"; echo $vers; ?></p></a>
         </div>
         <a href="reporte.php" id="reportes"><img src="img/file.png" id="mas" class="icon-64"/></a>
     </div>
@@ -35,7 +35,6 @@
 <footer>
     <p class="lead col mt-4">
         Powered by <a href="">Sistemas IT™</a>
-    </p>
-    
+    </p>    
 </footer>
 </html>

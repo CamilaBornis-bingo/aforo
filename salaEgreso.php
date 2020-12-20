@@ -2,22 +2,36 @@
     include "conexion.php";
     include "config.php";
 
-    $valMenos= $_POST['valorMenos'];
 
-    //CONSULTA A LA BD QUE CONSULTA EL TOTAL DE LA SALA
-    $sql= "SELECT * FROM sala_espera  ORDER BY idsala_espera DESC LIMIT 1";
-    $qry= mysqli_query($conn, $sql);
+    $sql2= "SELECT * FROM data_aforo  ORDER BY id_dataaforo DESC LIMIT 1";
+    $qry2= mysqli_query($conn, $sql2);
 
-    while($rslt= mysqli_fetch_array($qry)){
-        $control = $rslt['control_sala']; 
+    while($rslt= mysqli_fetch_array($qry2)){
+        $totalsala = $rslt['total_dataaforo']; 
+        $total_sp = $rslt['total_salaespera_dataaforo']; 
     }
 
-    //SE GUARDA EN LA BASE
-        $total_actual= $control - $valMenos;
+    $valMenos= $_POST['valorMenos'];
 
-        $sql_1= "INSERT INTO sala_espera(control_sala) VALUES($total_actual)";
-        mysqli_query($conn, $sql_1);
+    //SE GUARDA EN LA BASE
+    if($totalsala < 500){
+        //SE SUMA EL TOTAL CON EL VALOR NUEVO
+        if ($total_sp >= 1) {
+            $total_sala= $totalsala + $valMenos;
+            $total_salaespera= $total_sp - $valMenos;
     
+            $sql_1= "INSERT INTO data_aforo(egreso_dataaforo, total_dataaforo, total_salaespera_dataaforo) VALUES($valMenos, $total_sala, $total_salaespera)";
+            mysqli_query($conn, $sql_1);
+        }
+
+    } else if($totalsala >= 500) { 
+        echo 1;
+    } else {
+        echo 1;
+    }
+
+
+
 
 
     mysqli_close($conn);

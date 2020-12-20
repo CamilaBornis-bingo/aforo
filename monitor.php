@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav class="container-fluid navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.php">Bingo Oasis APP</a>
+        <a class="navbar-brand" href="index.php">Bingo Oasis APP | MONITOR</a>
         <a href="index.php" class="alinear-btn-back"><img src="img/goback.png"/></a>
     </nav>
 
@@ -24,6 +24,8 @@
         while($rslt= mysqli_fetch_array($qry)) {
             $total= $rslt["total_dataaforo"];
             $total_sp= $rslt["total_salaespera_dataaforo"];
+        }
+
             
             if($total == NULL) {
             echo'<div class="col-12">
@@ -42,7 +44,6 @@
                     </div>
                 ';
             }
-        }
     ?>
 
 </body>
