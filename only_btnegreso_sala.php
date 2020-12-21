@@ -15,7 +15,7 @@
     //echo $total_actual;
 
         //SE GUARDA EN LA BASE
-        if($total < $capacidad_max_sala || $total == $capacidad_max_sala){
+        if(($total < $capacidad_max_sala || $total == $capacidad_max_sala) && ($total > 0) ){
             //SE SUMA EL TOTAL CON EL VALOR NUEVO
             $total_actual= $total - $valMasIngreso;
     

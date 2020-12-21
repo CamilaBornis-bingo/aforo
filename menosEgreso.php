@@ -15,7 +15,7 @@
     //echo $total_actual;
 
         //SE GUARDA EN LA BASE
-        if($total < 500){
+        if($total < 500 && $total > 0){
             //SE SUMA EL TOTAL CON EL VALOR NUEVO
             $total_actual= $total - $valMasIngreso;
     
