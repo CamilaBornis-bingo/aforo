@@ -1,2 +1,0 @@
-# aforo
- aforo

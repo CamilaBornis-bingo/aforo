@@ -1,7 +1,7 @@
 html {
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .centrar{
@@ -45,3 +45,13 @@ footer {
     left: 35vw;
 }
 
+.limite{
+    background-color: red;
+}
+
+
+@media (max-width: 1000px) {
+    #reportes {
+      display: none;
+    }
+  }
